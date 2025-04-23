@@ -24,7 +24,6 @@ with open("badania.json", encoding="utf-8") as f:
 
 # Tool 1: Find time travel research and return university and sponsor
 @app.post("/tool1", response_model=ToolOutput)
-@app.post("/tool1", response_model=ToolOutput)
 async def tool1(data: ToolInput):
     return {"output": data.input}
 # Tool 2: Return team members from given university code
