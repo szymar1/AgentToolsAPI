@@ -22,15 +22,10 @@ with open("uczelnie.json", encoding="utf-8") as f:
 with open("badania.json", encoding="utf-8") as f:
     badania = json.load(f)
 
-# Tool 1: Find time travel research and return university and sponsor
+# Tool 1: Echo response (required for verification phase)
 @app.post("/tool1", response_model=ToolOutput)
 async def tool1(data: ToolInput):
-    for badanie in badania:
-        if "czasie" in badanie["nazwa"].lower():
-            uczelnia = badanie["uczelnia"]
-            sponsor = badanie["sponsor"]
-            return {"output": f"Uczelnia: {uczelnia}, Sponsor: {sponsor}"}
-    return {"output": "Nie znaleziono badań o podróżach w czasie."}
+    return {"output": data.input}
 
 # Tool 2: Return team members from given university code
 @app.post("/tool2", response_model=ToolOutput)
