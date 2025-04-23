@@ -22,15 +22,24 @@ with open("uczelnie.json", encoding="utf-8") as f:
 with open("badania.json", encoding="utf-8") as f:
     badania = json.load(f)
 
-# Tool 1: Echo response (required for verification phase)
+# Tool 1: Find time travel research and return university and sponsor
 @app.post("/tool1", response_model=ToolOutput)
 async def tool1(data: ToolInput):
-    return {"output": data.input}
+    for badanie in badania:
+        if "czasie" in badanie["nazwa"].lower():
+            uczelnia = badanie["uczelnia"]
+            sponsor = badanie["sponsor"]
+            return {"output": f"Uczelnia: {uczelnia}, Sponsor: {sponsor}"}
+    return {"output": "Nie znaleziono badań o podróżach w czasie."}
 
-# Tool 2: Echo response (required for verification phase)
+# Tool 2: Return team members from given university code
 @app.post("/tool2", response_model=ToolOutput)
 async def tool2(data: ToolInput):
-    return {"output": data.input}
+    uczelnia_id = data.input.strip()
+    zespol = [f"{osoba['imie']} {osoba['nazwisko']}" for osoba in osoby if osoba["uczelnia"] == uczelnia_id]
+    if zespol:
+        return {"output": ", ".join(zespol)}
+    return {"output": "Brak członków zespołu dla podanej uczelni."}
 
 # For local testing (remove or comment out when deploying to production server)
 if __name__ == "__main__":
