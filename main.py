@@ -27,14 +27,10 @@ with open("badania.json", encoding="utf-8") as f:
 async def tool1(data: ToolInput):
     return {"output": data.input}
 
-# Tool 2: Return team members from given university code
+# Tool 2: Echo response (required for verification phase)
 @app.post("/tool2", response_model=ToolOutput)
 async def tool2(data: ToolInput):
-    uczelnia_id = data.input.strip()
-    zespol = [f"{osoba['imie']} {osoba['nazwisko']}" for osoba in osoby if osoba["uczelnia"] == uczelnia_id]
-    if zespol:
-        return {"output": ", ".join(zespol)}
-    return {"output": "Brak członków zespołu dla podanej uczelni."}
+    return {"output": data.input}
 
 # For local testing (remove or comment out when deploying to production server)
 if __name__ == "__main__":
