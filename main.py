@@ -33,7 +33,7 @@ async def tool2(data: ToolInput):
     zespol = [f"{osoba['imie']} {osoba['nazwisko']}" for osoba in osoby if osoba["uczelnia"] == uczelnia_id]
     if zespol:
         return {"output": ", ".join(zespol)}
-    return {"output": "Brak członków zespołu dla podanej uczelni."}
+    return {"output": data.input}
 
 # For local testing (remove or comment out when deploying to production server)
 if __name__ == "__main__":
